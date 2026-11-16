@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>AI 工坊</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0C0E11}
+a{color:#A7B0BC;text-decoration:none}a:hover{color:#EDEFF2}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: #0C0E11; color: #EDEFF2; font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; font-size: 14px; line-height: 1.5">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; padding: 0 20px; min-height: 56px; border-bottom: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="9" height="9" fill="#E69F00"></rect><rect x="12" y="1" width="9" height="9" fill="#56B4E9"></rect><rect x="1" y="12" width="9" height="9" fill="#CC79A7"></rect><rect x="12" y="12" width="9" height="9" fill="#009E73"></rect></svg>
+<span style="font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.02em">算法竞技场</span>
+</div>
+<nav style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1">
+<a href="Setup.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">对局设置</a>
+<a href="Battle.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">观战</a>
+<a href="Tournament.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">批量对战</a>
+<a href="Workshop.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: #EDEFF2; border-bottom: 2px solid #EDEFF2">AI 工坊</a>
+</nav>
+<span style="padding: 4px 10px; border: 1px solid #EDEFF2; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px">第二阶段</span>
+</header>
+
+<main style="flex: 1; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; padding: 20px">
+
+<aside style="flex: 1 1 230px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<section style="display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<h2 style="margin: 0 0 2px; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">我的 AI</h2>
+<button type="button" style="display: flex; align-items: center; justify-content: space-between; min-height: 44px; padding: 0 12px; border: 1px solid #EDEFF2; background: #1A1E25; color: #EDEFF2; font: inherit; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; cursor: pointer"><span>rusher.ts</span><span style="color: #A7B0BC">v1</span></button>
+<button type="button" style="min-height: 44px; padding: 0 12px; border: 1px dashed #3E4653; background: transparent; color: #EDEFF2; font: inherit; cursor: pointer">新建 AI</button>
+<a href="Setup.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #272D36">从算法库复制一份来改</a>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">接口速查</h2>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #EDEFF2">obs.frontier</code><span style="font-size: 12px; color: #A7B0BC">我能下手的格子，都与领地相邻</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #EDEFF2">obs.energy</code><span style="font-size: 12px; color: #A7B0BC">这个 tick 手里的能量</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #EDEFF2">obs.owner[cell]</code><span style="font-size: 12px; color: #A7B0BC">格子归谁，0 是空地</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #EDEFF2">obs.costOf(cell)</code><span style="font-size: 12px; color: #A7B0BC">拿下这一格要花多少能量</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #EDEFF2">obs.distToEnemyBase(cell)</code><span style="font-size: 12px; color: #A7B0BC">到最近的敌方大本营有多远</span></div>
+<div style="display: flex; flex-direction: column; gap: 2px"><code style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #EDEFF2">return [{ type, cell }]</code><span style="font-size: 12px; color: #A7B0BC">claim 占空地，attack 打敌格，空数组是不出手</span></div>
+</section>
+</aside>
+
+<section style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; border: 1px solid #272D36; background: #0C0E11">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 0 12px 0 0; border-bottom: 1px solid #272D36; background: #12151A">
+<span style="display: flex; align-items: center; min-height: 44px; padding: 0 16px; border-bottom: 2px solid #EDEFF2; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px">rusher.ts</span>
+<span style="font-size: 12px; color: #A7B0BC">已保存</span>
+</div>
+<div style="overflow-x: auto; padding: 14px 0; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; line-height: 22px">
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">1</span><span style="white-space: pre"><span style="color: #7FB8E8">import</span> { Agent, Observation, Action } <span style="color: #7FB8E8">from</span> <span style="color: #9BD1A9">"@arena/sdk"</span>;</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">2</span><span></span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">3</span><span style="white-space: pre; color: #8791A0">// 直取大本营：选「花费 + 0.3 × 到敌方大本营的距离」最小的格子，</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">4</span><span style="white-space: pre; color: #8791A0">// 买不起就先攒能量。</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">5</span><span style="white-space: pre"><span style="color: #7FB8E8">export default class</span> <span style="color: #D9A5C7">Rusher</span> <span style="color: #7FB8E8">implements</span> <span style="color: #D9A5C7">Agent</span> {</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">6</span><span style="white-space: pre; padding-left: 2ch">act(obs: <span style="color: #D9A5C7">Observation</span>): <span style="color: #D9A5C7">Action</span>[] {</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">7</span><span style="white-space: pre; padding-left: 4ch"><span style="color: #7FB8E8">let</span> best = <span style="color: #E8B86D">-1</span>;</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">8</span><span style="white-space: pre; padding-left: 4ch"><span style="color: #7FB8E8">let</span> bestScore = <span style="color: #E8B86D">Infinity</span>;</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">9</span><span></span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">10</span><span style="white-space: pre; padding-left: 4ch"><span style="color: #7FB8E8">for</span> (<span style="color: #7FB8E8">const</span> cell <span style="color: #7FB8E8">of</span> obs.frontier) {</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">11</span><span style="white-space: pre; padding-left: 6ch"><span style="color: #7FB8E8">const</span> score = obs.costOf(cell) + <span style="color: #E8B86D">0.3</span> * obs.distToEnemyBase(cell);</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">12</span><span style="white-space: pre; padding-left: 6ch"><span style="color: #7FB8E8">if</span> (score &lt; bestScore) {</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">13</span><span style="white-space: pre; padding-left: 8ch">bestScore = score;</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">14</span><span style="white-space: pre; padding-left: 8ch">best = cell;</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">15</span><span style="white-space: pre; padding-left: 6ch">}</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">16</span><span style="white-space: pre; padding-left: 4ch">}</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">17</span><span></span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">18</span><span style="white-space: pre; padding-left: 4ch"><span style="color: #7FB8E8">if</span> (best &lt; <span style="color: #E8B86D">0</span> || obs.costOf(best) &gt; obs.energy) <span style="color: #7FB8E8">return</span> [];</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">19</span><span style="white-space: pre; padding-left: 4ch"><span style="color: #7FB8E8">const</span> type = obs.owner[best] === <span style="color: #E8B86D">0</span> ? <span style="color: #9BD1A9">"claim"</span> : <span style="color: #9BD1A9">"attack"</span>;</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">20</span><span style="white-space: pre; padding-left: 4ch"><span style="color: #7FB8E8">return</span> [{ type, cell: best }];</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">21</span><span style="white-space: pre; padding-left: 2ch">}</span></div>
+<div style="display: flex; min-height: 22px"><span style="flex: 0 0 40px; padding-right: 16px; text-align: right; color: #8791A0">22</span><span style="white-space: pre">}</span></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: auto; padding: 8px 16px; border-top: 1px solid #272D36; background: #12151A; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">
+<span>TypeScript</span>
+<span>接口检查通过</span>
+<span>22 行</span>
+</div>
+</section>
+
+<aside style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+
+<section style="display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">测试对局</h2>
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">tick 150 · 64 × 40</span>
+</div>
+<div style="display: flex; gap: 8px">
+<button type="button" style="flex: 1; min-height: 44px; padding: 0 12px; border: 1px solid #EDEFF2; background: #EDEFF2; color: #0C0E11; font: inherit; font-weight: 600; cursor: pointer">运行测试</button>
+<button type="button" style="min-height: 44px; padding: 0 14px; border: 1px solid #272D36; background: #1A1E25; color: #EDEFF2; font: inherit; cursor: pointer">单步</button>
+</div>
+<img src="/_blob/259a260ec5fdefd4f243aab514f0077f" alt="测试对局地图：蓝色的我的 AI 拉出一条长线直奔右侧橙色对手的大本营，并从下方包抄" style="display: block; width: 100%; height: auto; border: 1px solid #272D36">
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 13px">
+<div style="display: flex; align-items: center; gap: 8px"><span style="width: 12px; height: 12px; background: #56B4E9"></span><span style="flex: 1">我的 AI</span><span style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">209 格 · 8.5%</span></div>
+<div style="display: flex; align-items: center; gap: 8px"><span style="width: 12px; height: 12px; background: #E69F00"></span><span style="flex: 1">对手：内置 · 最小代价</span><span style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">231 格 · 9.4%</span></div>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">每 tick 用时</h2>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600">0.26 ms</span>
+</div>
+<div style="display: flex; height: 8px; background: #1A1E25"><div style="width: 1%; min-width: 4px; background: #EDEFF2"></div></div>
+<span style="font-size: 12px; color: #A7B0BC">预算 50 ms。超时的那个 tick 视为不出手。</span>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">控制台</h2>
+<div style="display: flex; flex-direction: column; gap: 4px; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; line-height: 18px; color: #A7B0BC">
+<span>[t=0] 对局开始</span>
+<span>[t=65] 与对手接壤</span>
+<span>[t=150] 已夺 23 格，被夺 0 格</span>
+</div>
+</section>
+
+<button type="button" style="min-height: 48px; padding: 0 16px; border: 1px solid #EDEFF2; background: transparent; color: #EDEFF2; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">提交到竞技场</button>
+
+</aside>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1040}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

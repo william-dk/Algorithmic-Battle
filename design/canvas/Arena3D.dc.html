@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>3D 观战</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0C0E11}
+a{color:#A7B0BC;text-decoration:none}a:hover{color:#EDEFF2}
+.frame{display:none}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: #0C0E11; color: #EDEFF2; font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; font-size: 14px; line-height: 1.5">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; padding: 0 20px; min-height: 56px; border-bottom: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="9" height="9" fill="#E69F00"></rect><rect x="12" y="1" width="9" height="9" fill="#56B4E9"></rect><rect x="1" y="12" width="9" height="9" fill="#CC79A7"></rect><rect x="12" y="12" width="9" height="9" fill="#009E73"></rect></svg>
+<span style="font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.02em">算法竞技场</span>
+</div>
+<nav style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1">
+<a href="Setup.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">对局设置</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: #EDEFF2; border-bottom: 2px solid #EDEFF2">观战</a>
+<a href="Tournament.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">批量对战</a>
+<a href="Workshop.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">AI 工坊</a>
+</nav>
+<span style="padding: 4px 10px; border: 1px solid #272D36; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">第一级 · 圈地</span>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; padding: 8px 20px; border-bottom: 1px solid #272D36">
+<h1 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 600">四方混战 · 3D 回放</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 18px; flex: 1; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">
+<span>40 × 40 × 20 体素</span>
+<span>有界</span>
+<span>种子 99</span>
+<span>每 tick 每方占 1 格</span>
+</div>
+<div style="display: flex; border: 1px solid #272D36">
+<a href="Main.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 56px; min-height: 44px">2D</a>
+<a href="Arena3D.dc.html" style="display: flex; align-items: center; justify-content: center; min-width: 56px; min-height: 44px; background: #EDEFF2; color: #0C0E11; font-weight: 600">3D</a>
+</div>
+</div>
+
+<main style="flex: 1; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; padding: 20px">
+
+<section style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px">
+<div style="display: flex">
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #EDEFF2; background: #EDEFF2; color: #0C0E11; font: inherit; font-weight: 600; cursor: pointer">表面</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #272D36; background: transparent; color: #A7B0BC; font: inherit; cursor: pointer">切片</button>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #272D36; background: transparent; color: #A7B0BC; font: inherit; cursor: pointer">透视</button>
+</div>
+<span style="flex: 1; font-size: 12px; color: #A7B0BC">按住画面左右拖动，转动立方体</span>
+<button type="button" onClick="{{reset}}" style="min-height: 44px; padding: 0 14px; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; font: inherit; font-size: 13px; cursor: pointer">复位视角</button>
+</div>
+
+<div onPointerDown="{{down}}" onPointerMove="{{move}}" onPointerUp="{{up}}" onPointerCancel="{{up}}" onMouseDown="{{down}}" onMouseMove="{{move}}" onMouseUp="{{up}}" onMouseLeave="{{up}}" style="border: 1px solid #272D36; cursor: grab; touch-action: none; user-select: none">
+<img class="frame" src="/_blob/8536dd8ad4a93f856df5d90c7812fe01" alt="3D 对局体素图，视角 0 度" draggable="false" style="display: {{d0}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/87ae46a9f97fa1625ba7f27c52f6f66e" alt="3D 对局体素图，视角 15 度" draggable="false" style="display: {{d1}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/daf7b9f349e93a011687d985816a8f66" alt="3D 对局体素图，视角 30 度" draggable="false" style="display: {{d2}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/bcd0060e69fe613642cbafe9ef1ab2ce" alt="3D 对局体素图，视角 45 度" draggable="false" style="display: {{d3}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/7b8d6f4bc318b3ddd13406aa3d50cdb8" alt="3D 对局体素图，视角 60 度" draggable="false" style="display: {{d4}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/4a3b3b7665c2bf3c5287d45d60e68cf6" alt="3D 对局体素图，视角 75 度" draggable="false" style="display: {{d5}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/c39dabafa8ffc495f7aac0180bd19892" alt="3D 对局体素图，视角 90 度" draggable="false" style="display: {{d6}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/632ea4b231ecfef96333e13d3d8f6f2c" alt="3D 对局体素图，视角 105 度" draggable="false" style="display: {{d7}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/1149d3e07f0b0799a4ba08a8ef4fe817" alt="3D 对局体素图，视角 120 度" draggable="false" style="display: {{d8}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/44c77e3794f1fd0a46f5cabf78ba8298" alt="3D 对局体素图，视角 135 度" draggable="false" style="display: {{d9}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/ab763062ff8720305848bc3ab2c55d59" alt="3D 对局体素图，视角 150 度" draggable="false" style="display: {{d10}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/84339332ca87eb0618baa9146236ef0e" alt="3D 对局体素图，视角 165 度" draggable="false" style="display: {{d11}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/765f22d548ea8b37f58841ac75bee473" alt="3D 对局体素图，视角 180 度" draggable="false" style="display: {{d12}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/3ffc525ece37b4c2e19e271fbd47a9e0" alt="3D 对局体素图，视角 195 度" draggable="false" style="display: {{d13}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/248382e9668b7719ee49abbc44d2b528" alt="3D 对局体素图，视角 210 度" draggable="false" style="display: {{d14}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/f96cb3659e845904cba8569507320f9d" alt="3D 对局体素图，视角 225 度" draggable="false" style="display: {{d15}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/d38b2bf35b8b7f9b693aadeaaacf5220" alt="3D 对局体素图，视角 240 度" draggable="false" style="display: {{d16}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/3e128106cb89979f686c66f731ccfb5b" alt="3D 对局体素图，视角 255 度" draggable="false" style="display: {{d17}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/44a39562cd7c6341e7dba0dd09462b41" alt="3D 对局体素图，视角 270 度" draggable="false" style="display: {{d18}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/27d762bf90b5aae033456b421d11baa6" alt="3D 对局体素图，视角 285 度" draggable="false" style="display: {{d19}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/d97e07f8a324a97c9b39424a76a7ac59" alt="3D 对局体素图，视角 300 度" draggable="false" style="display: {{d20}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/4129f6a9c6f685a495033e7738d8c08b" alt="3D 对局体素图，视角 315 度" draggable="false" style="display: {{d21}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/086eab5ae93ada923e838e689370a09a" alt="3D 对局体素图，视角 330 度" draggable="false" style="display: {{d22}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+<img class="frame" src="/_blob/5e9ca7757397ebc9ab88ae932e0e3eef" alt="3D 对局体素图，视角 345 度" draggable="false" style="display: {{d23}}; width: 100%; max-width: 580px; height: auto; margin: 0 auto; pointer-events: none">
+</div>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px">
+<button type="button" aria-label="向左转 15 度" onClick="{{left}}" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<div style="flex: 1 1 220px; min-width: 0; display: flex; align-items: center; gap: 12px">
+<label for="yaw" style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; white-space: nowrap">视角 {{deg}}°</label>
+<input id="yaw" type="range" min="0" max="23" step="1" value="{{frame}}" onChange="{{slide}}" style="flex: 1; min-width: 100px; height: 44px; margin: 0; accent-color: #EDEFF2">
+</div>
+<button type="button" aria-label="向右转 15 度" onClick="{{right}}" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+<button type="button" onClick="{{toggleAuto}}" style="min-height: 44px; padding: 0 14px; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; font: inherit; font-size: 13px; cursor: pointer">{{autoLabel}}</button>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 12px; color: #A7B0BC">
+<div style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 0; border-top: 2px solid #EDEFF2"></span><span>白线框：当前切片的高度 z = 9</span></div>
+<span>越远的体素越暗，只画表面</span>
+</div>
+</section>
+
+<aside style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+
+<section style="display: flex; flex-direction: column; gap: 10px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">切片</h2>
+<div style="display: flex">
+<button type="button" aria-label="沿 X 轴切" style="width: 44px; height: 44px; padding: 0; border: 1px solid #272D36; background: transparent; color: #A7B0BC; font: inherit; font-family: 'JetBrains Mono', Consolas, monospace; cursor: pointer">X</button>
+<button type="button" aria-label="沿 Y 轴切" style="width: 44px; height: 44px; padding: 0; border: 1px solid #272D36; background: transparent; color: #A7B0BC; font: inherit; font-family: 'JetBrains Mono', Consolas, monospace; cursor: pointer">Y</button>
+<button type="button" aria-label="沿 Z 轴切" style="width: 44px; height: 44px; padding: 0; border: 1px solid #EDEFF2; background: #EDEFF2; color: #0C0E11; font: inherit; font-family: 'JetBrains Mono', Consolas, monospace; font-weight: 600; cursor: pointer">Z</button>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<label for="slicez" style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; white-space: nowrap">z = 9 <span style="color: #A7B0BC">/ 19</span></label>
+<input id="slicez" type="range" min="0" max="19" value="9" style="flex: 1; min-width: 80px; height: 44px; margin: 0; accent-color: #EDEFF2">
+</div>
+<img src="/_blob/28a685dee43dd3bbc471205d9d411174" alt="z = 9 这一层的俯视图：粉方的墙在这一层呈 L 形" style="display: block; width: 100%; height: auto; border: 1px solid #272D36">
+<p style="margin: 0; font-size: 12px; color: #A7B0BC; text-wrap: pretty">切出来就是一张 2D 地图，暗色底纹同样表示这片空位离谁最近。</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 8px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">显示哪几方</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(110px, 100%), 1fr)); gap: 4px 12px">
+<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; margin: 0; accent-color: #EDEFF2"><span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #E69F00; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">A</span><span>橙方</span></label>
+<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; margin: 0; accent-color: #EDEFF2"><span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #56B4E9; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">B</span><span>蓝方</span></label>
+<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; margin: 0; accent-color: #EDEFF2"><span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #CC79A7; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">C</span><span>粉方</span></label>
+<label style="display: flex; align-items: center; gap: 8px; min-height: 44px"><input type="checkbox" checked="checked" style="width: 18px; height: 18px; margin: 0; accent-color: #EDEFF2"><span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #009E73; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">D</span><span>绿方</span></label>
+</div>
+</section>
+
+</aside>
+
+<aside style="flex: 1 1 300px; min-width: 0">
+<section style="padding: 16px; background: #12151A; border: 1px solid #272D36">
+<div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">势力范围</h2>
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">占全部 32,000 格</span>
+</div>
+<p style="margin: 6px 0 10px; font-size: 12px; color: #A7B0BC; text-wrap: pretty">四方各占了 2,400 格。在 3D 里，一道墙是一个面，圈地的收益比 2D 更大。</p>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #CC79A7; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">C</span>
+<span style="flex: 1; font-weight: 500">Voronoi 中线优先</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #CC79A7">39.1%</span>
+</div>
+<div style="display: flex; height: 8px; background: #1A1E25"><div style="width: 18.8%; background: #CC79A7"></div><div style="width: 79%; background: #CC79A7; opacity: 0.38"></div></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC"><span>已占 2,400</span><span>圈下 +10,108</span></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #009E73; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">D</span>
+<span style="flex: 1; font-weight: 500">DFS 深度优先</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #009E73">30.8%</span>
+</div>
+<div style="display: flex; height: 8px; background: #1A1E25"><div style="width: 18.8%; background: #009E73"></div><div style="width: 58.2%; background: #009E73; opacity: 0.38"></div></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC"><span>已占 2,400</span><span>圈下 +7,451</span></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #E69F00; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">A</span>
+<span style="flex: 1; font-weight: 500">BFS 广度优先</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #E69F00">14.1%</span>
+</div>
+<div style="display: flex; height: 8px; background: #1A1E25"><div style="width: 18.8%; background: #E69F00"></div><div style="width: 16.4%; background: #E69F00; opacity: 0.38"></div></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC"><span>已占 2,400</span><span>圈下 +2,099</span></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<span style="display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: #56B4E9; color: #0C0E11; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; font-weight: 500">B</span>
+<span style="flex: 1; font-weight: 500">随机前沿</span>
+<span style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: #56B4E9">12.4%</span>
+</div>
+<div style="display: flex; height: 8px; background: #1A1E25"><div style="width: 18.8%; background: #56B4E9"></div><div style="width: 12.2%; background: #56B4E9; opacity: 0.38"></div></div>
+<div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC"><span>已占 2,400</span><span>圈下 +1,563</span></div>
+</div>
+
+<div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid #272D36; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC"><span>等距争夺中</span><span>1,179 格 · 3.7%</span></div>
+</section>
+</aside>
+
+</main>
+
+<footer style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 12px 20px; border-top: 1px solid #272D36; background: #12151A">
+<div style="display: flex; gap: 6px">
+<button type="button" aria-label="上一步" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 5L8 12l10 7z"></path><path d="M5 5v14"></path></svg></button>
+<button type="button" aria-label="播放" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 44px; padding: 0; border: 1px solid #EDEFF2; border-radius: 2px; background: #EDEFF2; color: #0C0E11; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5l12 7-12 7z"></path></svg></button>
+<button type="button" aria-label="下一步" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 5l10 7-10 7z"></path><path d="M19 5v14"></path></svg></button>
+</div>
+<button type="button" style="min-height: 44px; padding: 0 14px; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; font: inherit; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; cursor: pointer">速度 8×</button>
+<div style="flex: 1 1 320px; min-width: 0; display: flex; align-items: center; gap: 14px">
+<label for="timeline" style="font-family: 'JetBrains Mono', Consolas, monospace; font-size: 13px; white-space: nowrap">tick 2,399 <span style="color: #A7B0BC">/ 10,893</span></label>
+<input id="timeline" type="range" min="0" max="10893" value="2399" style="flex: 1; min-width: 120px; height: 44px; margin: 0; accent-color: #EDEFF2">
+</div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":940}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    if (super.componentDidMount) super.componentDidMount();
+    var self = this;
+    this._timer = setInterval(function () {
+      var st = self.state || {};
+      if (st.auto && !self._drag) self.setState({ frame: ((st.frame || 0) + 1) % 24 });
+    }, 110);
+  }
+  componentWillUnmount() {
+    clearInterval(this._timer);
+    if (super.componentWillUnmount) super.componentWillUnmount();
+  }
+  renderVals() {
+    var self = this, st = this.state || {}, frame = st.frame || 0;
+    if (!this._handlers) {
+      var current = function () { return (self.state && self.state.frame) || 0; };
+      var wrap = function (n) { return ((n % 24) + 24) % 24; };
+      this._handlers = {
+        left: function () { self.setState({ frame: wrap(current() - 1) }); },
+        right: function () { self.setState({ frame: wrap(current() + 1) }); },
+        reset: function () { self.setState({ frame: 0, auto: false }); },
+        slide: function (e) { self.setState({ frame: wrap(Number(e.target.value) || 0) }); },
+        toggleAuto: function () { self.setState({ auto: !(self.state && self.state.auto) }); },
+        down: function (e) {
+          self._drag = { x: e.clientX, frame: current() };
+          try { if (e.pointerId !== undefined) e.currentTarget.setPointerCapture(e.pointerId); } catch (err) {}
+        },
+        move: function (e) {
+          if (!self._drag) return;
+          var next = wrap(self._drag.frame + Math.round((e.clientX - self._drag.x) / 14));
+          if (next !== current()) self.setState({ frame: next });
+        },
+        up: function () { self._drag = null; }
+      };
+    }
+    var vals = { frame: frame, deg: String(frame * 15), autoLabel: st.auto ? '停止自动旋转' : '自动旋转' };
+    for (var k = 0; k < 24; k++) vals['d' + k] = k === frame ? 'block' : 'none';
+    for (var name in this._handlers) vals[name] = this._handlers[name];
+    return vals;
+  }
+}
+</script>
+</body>
+</html>

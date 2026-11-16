@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>批量对战与排行</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0C0E11}
+a{color:#A7B0BC;text-decoration:none}a:hover{color:#EDEFF2}
+</style>
+</helmet>
+<div style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: #0C0E11; color: #EDEFF2; font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; font-size: 14px; line-height: 1.5">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; padding: 0 20px; min-height: 56px; border-bottom: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="9" height="9" fill="#E69F00"></rect><rect x="12" y="1" width="9" height="9" fill="#56B4E9"></rect><rect x="1" y="12" width="9" height="9" fill="#CC79A7"></rect><rect x="12" y="12" width="9" height="9" fill="#009E73"></rect></svg>
+<span style="font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.02em">算法竞技场</span>
+</div>
+<nav style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1">
+<a href="Setup.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">对局设置</a>
+<a href="Main.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">观战</a>
+<a href="Tournament.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: #EDEFF2; border-bottom: 2px solid #EDEFF2">批量对战</a>
+<a href="Workshop.dc.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">AI 工坊</a>
+</nav>
+<span style="padding: 4px 10px; border: 1px solid #272D36; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">第一级 · 圈地</span>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; padding: 8px 20px; border-bottom: 1px solid #272D36">
+<h1 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 600">两两循环赛</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 18px; flex: 1; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">
+<span>11 种算法</span>
+<span>55 组对阵 × 60 局 = 3,300 局</span>
+<span>48 × 48 地图 · 30 张随机对称障碍</span>
+<span>每张地图双方换边各打一局</span>
+</div>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; font: inherit; cursor: pointer">重新运行</button>
+</div>
+
+<main style="flex: 1; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; padding: 20px">
+
+<section style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">胜率矩阵</h2>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 12px; color: #A7B0BC">
+<span>格内数字：行算法对列算法的胜率 %</span>
+<div style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; background: #7C5A0D"></span><span>列占优</span></div>
+<div style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; background: #1A1E25; border: 1px solid #272D36"></span><span>五五开</span></div>
+<div style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; background: #346482"></span><span>行占优</span></div>
+</div>
+</div>
+<div style="overflow-x: auto">
+<div style="display: grid; grid-template-columns: 150px repeat(11, minmax(0, 1fr)); gap: 2px; min-width: 720px; font-variant-numeric: tabular-nums">
+<sc-for list="{{cells}}" as="c" hint-placeholder-count="48">
+<div style="display: flex; align-items: center; justify-content: {{c.jc}}; min-height: 38px; padding: 0 8px; background: {{c.bg}}; color: {{c.fg}}; font-size: 13px; font-weight: {{c.fw}}; white-space: nowrap">{{c.t}}</div>
+</sc-for>
+</div>
+</div>
+<p style="margin: 0; font-size: 12px; color: #A7B0BC; text-wrap: pretty">数据来自原型模拟器：每 tick 每方占 1 格，两方抢同一格时随机裁决，终局格数多者胜。行列按 Elo 从高到低排列。</p>
+</section>
+
+<aside style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<h2 style="margin: 0 0 10px; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">排行</h2>
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 8px; padding-bottom: 8px; font-size: 12px; color: #A7B0BC">
+<span>#</span>
+<span>算法</span>
+<span style="text-align: right">Elo</span>
+<span style="text-align: right">胜率</span>
+<span style="text-align: right">均占</span>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="11">
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">{{r.rank}}</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">{{r.elo}}</span>
+<span style="text-align: right; color: #A7B0BC">{{r.win}}</span>
+<span style="text-align: right; color: #A7B0BC">{{r.share}}</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: {{r.bar}}; height: 3px; background: #EDEFF2"></div></div>
+</div>
+</sc-for>
+<p style="margin: 10px 0 0; font-size: 12px; color: #A7B0BC; text-wrap: pretty">Elo 由全部 3,300 局的胜负拟合得出。均占是该算法每局拿到的领地占双方总和的平均比例。</p>
+</aside>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":940}}'>
+class Component extends DCLogic {
+  renderVals() {
+    if (!this._vals) this._vals = this.build();
+    return this._vals;
+  }
+  build() {
+    var names = ['BFS 广度优先', 'DFS 深度优先', '随机前沿', 'Prim 随机权重', '随机游走', '螺旋', '扫描线', 'Hilbert 曲线', 'A* 直取中心', '贪心最佳优先', 'Voronoi 中线优先'];
+    var short = ['BFS', 'DFS', '随机', 'Prim', '游走', '螺旋', '扫描', 'Hilb', 'A*', '贪心', 'Voro'];
+    var win = [
+      [null, 5, 28, 0, 2, 49, 63, 41, 53, 63, 0],
+      [95, null, 95, 17, 38, 96, 77, 83, 97, 94, 7],
+      [73, 5, null, 0, 7, 67, 64, 49, 69, 69, 0],
+      [100, 83, 100, null, 78, 100, 85, 97, 100, 98, 7],
+      [98, 62, 93, 22, null, 98, 80, 87, 98, 90, 5],
+      [51, 4, 33, 0, 2, null, 44, 41, 50, 21, 0],
+      [38, 23, 36, 15, 20, 56, null, 34, 71, 74, 13],
+      [59, 17, 51, 3, 13, 59, 66, null, 76, 81, 0],
+      [47, 3, 31, 0, 2, 50, 29, 24, null, 63, 0],
+      [38, 6, 31, 2, 10, 79, 26, 19, 38, null, 0],
+      [100, 93, 100, 93, 95, 100, 87, 100, 100, 100, null]
+    ];
+    var elo = [1284, 1670, 1373, 1881, 1714, 1231, 1353, 1393, 1233, 1233, 2136];
+    var overall = [30.3, 69.8, 40.3, 84.8, 73.3, 24.6, 38.0, 42.5, 24.8, 24.8, 96.8];
+    var share = [46.3, 51.5, 46.6, 55.6, 50.8, 46.1, 47.9, 47.9, 46.9, 47.5, 63.0];
+    var order = names.map(function (_, i) { return i; }).sort(function (a, b) { return elo[b] - elo[a]; });
+    var panel = [18, 21, 26], sky = [86, 180, 233], orange = [230, 159, 0];
+    function mix(a, b, t) { return 'rgb(' + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(',') + ')'; }
+    var cells = [{ t: '行 对 列', bg: 'transparent', fg: '#A7B0BC', jc: 'flex-start', fw: 400 }];
+    order.forEach(function (j) { cells.push({ t: short[j], bg: 'transparent', fg: '#A7B0BC', jc: 'center', fw: 400 }); });
+    order.forEach(function (i) {
+      cells.push({ t: names[i], bg: 'transparent', fg: '#EDEFF2', jc: 'flex-start', fw: 500 });
+      order.forEach(function (j) {
+        var v = win[i][j];
+        if (v === null) cells.push({ t: '—', bg: 'transparent', fg: '#8791A0', jc: 'center', fw: 400 });
+        else cells.push({ t: String(v), bg: mix(panel, v >= 50 ? sky : orange, Math.abs(v - 50) / 50 * 0.5), fg: '#EDEFF2', jc: 'center', fw: v >= 90 || v <= 10 ? 600 : 400 });
+      });
+    });
+    var top = elo[order[0]];
+    var rows = order.map(function (i, r) {
+      return { rank: String(r + 1), name: names[i], elo: String(elo[i]), win: overall[i].toFixed(1) + '%', share: share[i].toFixed(1) + '%', bar: Math.round((elo[i] - 1150) / (top - 1150) * 100) + '%' };
+    });
+    return { cells: cells, rows: rows };
+  }
+}
+</script>
+</body>
+</html>

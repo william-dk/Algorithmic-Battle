@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>批量对战与排行</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0C0E11}
+a{color:#A7B0BC;text-decoration:none}a:hover{color:#EDEFF2}
+</style>
+</head>
+<body>
+<div style="min-height: 100vh; box-sizing: border-box; display: flex; flex-direction: column; background: #0C0E11; color: #EDEFF2; font-family: Inter, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; font-size: 14px; line-height: 1.5">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 28px; padding: 0 20px; min-height: 56px; border-bottom: 1px solid #272D36">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="9" height="9" fill="#E69F00"></rect><rect x="12" y="1" width="9" height="9" fill="#56B4E9"></rect><rect x="1" y="12" width="9" height="9" fill="#CC79A7"></rect><rect x="12" y="12" width="9" height="9" fill="#009E73"></rect></svg>
+<span style="font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.02em">算法竞技场</span>
+</div>
+<nav style="display: flex; flex-wrap: wrap; gap: 4px; flex: 1">
+<a href="setup.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">对局设置</a>
+<a href="watch-2d.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">观战</a>
+<a href="tournament.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px; color: #EDEFF2; border-bottom: 2px solid #EDEFF2">批量对战</a>
+<a href="workshop.html" style="display: flex; align-items: center; min-height: 44px; padding: 0 12px">AI 工坊</a>
+</nav>
+<span style="padding: 4px 10px; border: 1px solid #272D36; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">第一级 · 圈地</span>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; padding: 8px 20px; border-bottom: 1px solid #272D36">
+<h1 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 600">两两循环赛</h1>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 18px; flex: 1; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 12px; color: #A7B0BC">
+<span>11 种算法</span>
+<span>55 组对阵 × 60 局 = 3,300 局</span>
+<span>48 × 48 地图 · 30 张随机对称障碍</span>
+<span>每张地图双方换边各打一局</span>
+</div>
+<button type="button" style="min-height: 44px; padding: 0 16px; border: 1px solid #272D36; border-radius: 2px; background: #1A1E25; color: #EDEFF2; font: inherit; cursor: pointer">重新运行</button>
+</div>
+
+<main style="flex: 1; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 20px; padding: 20px">
+
+<section style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px">
+<h2 style="margin: 0; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">胜率矩阵</h2>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; font-size: 12px; color: #A7B0BC">
+<span>格内数字：行算法对列算法的胜率 %</span>
+<div style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; background: #7C5A0D"></span><span>列占优</span></div>
+<div style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; background: #1A1E25; border: 1px solid #272D36"></span><span>五五开</span></div>
+<div style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; background: #346482"></span><span>行占优</span></div>
+</div>
+</div>
+<div style="overflow-x: auto">
+<div style="display: grid; grid-template-columns: 150px repeat(11, minmax(0, 1fr)); gap: 2px; min-width: 720px; font-variant-numeric: tabular-nums">
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">行 对 列</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">Voro</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">Prim</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">游走</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">DFS</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">Hilb</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">随机</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">扫描</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">BFS</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">A*</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">贪心</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #A7B0BC; font-size: 13px; font-weight: 400; white-space: nowrap">螺旋</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">Voronoi 中线优先</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(47,89,115); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">93</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(49,93,119); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">95</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(47,89,115); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">93</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(43,80,103); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">87</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">Prim 随机权重</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(109,80,15); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">7</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(37,66,84); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">78</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(40,73,94); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">83</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(50,96,123); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">97</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(42,77,98); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">85</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(51,97,125); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">98</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,101,130); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">100</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">随机游走</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(113,83,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">5</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(77,60,19); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">22</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(26,40,51); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">62</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(43,80,103); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">87</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(47,89,115); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">93</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(38,69,88); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">80</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(51,97,125); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">98</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(51,97,125); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">98</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(45,85,109); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">90</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(51,97,125); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">98</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">DFS 深度优先</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(109,80,15); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">7</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(88,67,17); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">17</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(43,38,23); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">38</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(40,73,94); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">83</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(49,93,119); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">95</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(36,64,82); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">77</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(49,93,119); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">95</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(50,96,123); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">97</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(48,91,117); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">94</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(49,94,121); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">96</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">Hilbert 曲线</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(118,86,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">3</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(96,72,16); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">13</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(88,67,17); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">17</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(19,23,28); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">51</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(29,46,59); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">66</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(24,35,45); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">59</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(36,62,80); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">76</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(39,70,90); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">81</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(24,35,45); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">59</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">随机前沿</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(109,80,15); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">7</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(113,83,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">5</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(20,22,26); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">49</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(28,43,55); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">64</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(34,58,74); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">73</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(31,51,65); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">69</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(31,51,65); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">69</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(30,48,61); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">67</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">扫描线</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(96,72,16); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">13</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(92,69,17); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">15</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(82,62,18); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">20</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(75,58,19); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">23</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(52,43,22); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">34</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(48,40,22); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">36</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(43,38,23); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">38</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(32,54,69); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">71</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(34,59,76); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">74</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(22,31,38); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">56</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">BFS 广度优先</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(120,87,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">2</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(113,83,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">5</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(37,33,24); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">41</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(65,51,20); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">28</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(27,42,53); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">63</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(20,26,32); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">53</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(27,42,53); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">63</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(20,22,26); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">49</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">A* 直取中心</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(120,87,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">2</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(118,86,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">3</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(73,57,19); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">24</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(58,47,21); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">31</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(63,50,21); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">29</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(24,25,25); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">47</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(27,42,53); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">63</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(18,21,26); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">50</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">贪心最佳优先</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(120,87,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">2</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(103,76,16); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">10</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(111,82,15); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">6</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(84,64,18); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">19</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(58,47,21); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">31</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(69,54,20); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">26</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(43,38,23); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">38</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(43,38,23); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">38</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(38,67,86); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">79</div>
+
+<div style="display: flex; align-items: center; justify-content: flex-start; min-height: 38px; padding: 0 8px; background: transparent; color: #EDEFF2; font-size: 13px; font-weight: 500; white-space: nowrap">螺旋</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(124,90,13); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">0</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(120,87,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">2</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(116,84,14); color: #EDEFF2; font-size: 13px; font-weight: 600; white-space: nowrap">4</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(37,33,24); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">41</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(54,44,22); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">33</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(31,29,24); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">44</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(19,23,28); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">51</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(18,21,26); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">50</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: rgb(79,61,18); color: #EDEFF2; font-size: 13px; font-weight: 400; white-space: nowrap">21</div>
+
+<div style="display: flex; align-items: center; justify-content: center; min-height: 38px; padding: 0 8px; background: transparent; color: #8791A0; font-size: 13px; font-weight: 400; white-space: nowrap">—</div>
+
+</div>
+</div>
+<p style="margin: 0; font-size: 12px; color: #A7B0BC; text-wrap: pretty">数据来自原型模拟器：每 tick 每方占 1 格，两方抢同一格时随机裁决，终局格数多者胜。行列按 Elo 从高到低排列。</p>
+</section>
+
+<aside style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; padding: 16px; background: #12151A; border: 1px solid #272D36">
+<h2 style="margin: 0 0 10px; font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif; font-size: 15px; font-weight: 600">排行</h2>
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 8px; padding-bottom: 8px; font-size: 12px; color: #A7B0BC">
+<span>#</span>
+<span>算法</span>
+<span style="text-align: right">Elo</span>
+<span style="text-align: right">胜率</span>
+<span style="text-align: right">均占</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">1</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Voronoi 中线优先</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">2136</span>
+<span style="text-align: right; color: #A7B0BC">96.8%</span>
+<span style="text-align: right; color: #A7B0BC">63.0%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 100%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">2</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Prim 随机权重</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1881</span>
+<span style="text-align: right; color: #A7B0BC">84.8%</span>
+<span style="text-align: right; color: #A7B0BC">55.6%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 74%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">3</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">随机游走</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1714</span>
+<span style="text-align: right; color: #A7B0BC">73.3%</span>
+<span style="text-align: right; color: #A7B0BC">50.8%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 57%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">4</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">DFS 深度优先</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1670</span>
+<span style="text-align: right; color: #A7B0BC">69.8%</span>
+<span style="text-align: right; color: #A7B0BC">51.5%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 53%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">5</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Hilbert 曲线</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1393</span>
+<span style="text-align: right; color: #A7B0BC">42.5%</span>
+<span style="text-align: right; color: #A7B0BC">47.9%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 25%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">6</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">随机前沿</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1373</span>
+<span style="text-align: right; color: #A7B0BC">40.3%</span>
+<span style="text-align: right; color: #A7B0BC">46.6%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 23%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">7</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">扫描线</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1353</span>
+<span style="text-align: right; color: #A7B0BC">38.0%</span>
+<span style="text-align: right; color: #A7B0BC">47.9%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 21%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">8</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">BFS 广度优先</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1284</span>
+<span style="text-align: right; color: #A7B0BC">30.3%</span>
+<span style="text-align: right; color: #A7B0BC">46.3%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 14%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">9</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">A* 直取中心</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1233</span>
+<span style="text-align: right; color: #A7B0BC">24.8%</span>
+<span style="text-align: right; color: #A7B0BC">46.9%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 8%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">10</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">贪心最佳优先</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1233</span>
+<span style="text-align: right; color: #A7B0BC">24.8%</span>
+<span style="text-align: right; color: #A7B0BC">47.5%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 8%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<div style="display: grid; grid-template-columns: 24px minmax(0, 1fr) 52px 56px 56px; align-items: center; gap: 4px 8px; padding: 9px 0 8px; border-top: 1px solid #272D36; font-size: 13px; font-variant-numeric: tabular-nums">
+<span style="font-family: 'JetBrains Mono', Consolas, monospace; color: #A7B0BC">11</span>
+<span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">螺旋</span>
+<span style="text-align: right; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600">1231</span>
+<span style="text-align: right; color: #A7B0BC">24.6%</span>
+<span style="text-align: right; color: #A7B0BC">46.1%</span>
+<div style="grid-column: 1 / -1; height: 3px; background: #1A1E25"><div style="width: 8%; height: 3px; background: #EDEFF2"></div></div>
+</div>
+
+<p style="margin: 10px 0 0; font-size: 12px; color: #A7B0BC; text-wrap: pretty">Elo 由全部 3,300 局的胜负拟合得出。均占是该算法每局拿到的领地占双方总和的平均比例。</p>
+</aside>
+
+</main>
+</div>
+</body>
+</html>

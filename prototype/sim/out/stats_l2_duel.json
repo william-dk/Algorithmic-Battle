@@ -1,0 +1,1202 @@
+{
+ "l2": {
+  "kinds": [
+   "cutter",
+   "rush",
+   "compact",
+   "cheap"
+  ],
+  "free": 4912,
+  "snaps": [
+   {
+    "t": 300,
+    "why": "snap",
+    "cnt": [
+     935,
+     634,
+     935,
+     1
+    ],
+    "share": [
+     19,
+     12.9,
+     19,
+     0
+    ],
+    "energy": [
+     19,
+     1,
+     19,
+     1
+    ],
+    "alive": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "taken": [
+     0,
+     64,
+     0,
+     43
+    ],
+    "lost": [
+     0,
+     43,
+     0,
+     64
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     }
+    ]
+   },
+   {
+    "t": 450,
+    "why": "snap",
+    "cnt": [
+     1812,
+     1390,
+     1709,
+     1
+    ],
+    "share": [
+     36.9,
+     28.3,
+     34.8,
+     0
+    ],
+    "energy": [
+     35,
+     0,
+     21,
+     0
+    ],
+    "alive": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "taken": [
+     18,
+     210,
+     80,
+     81
+    ],
+    "lost": [
+     20,
+     145,
+     122,
+     102
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     }
+    ]
+   },
+   {
+    "t": 600,
+    "why": "snap",
+    "cnt": [
+     2513,
+     0,
+     1987,
+     104
+    ],
+    "share": [
+     51.2,
+     0,
+     40.5,
+     2.1
+    ],
+    "energy": [
+     54,
+     0,
+     54,
+     1
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     true
+    ],
+    "taken": [
+     386,
+     474,
+     451,
+     99
+    ],
+    "lost": [
+     141,
+     489,
+     660,
+     120
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     }
+    ]
+   },
+   {
+    "t": 800,
+    "why": "snap",
+    "cnt": [
+     2666,
+     0,
+     2246,
+     0
+    ],
+    "share": [
+     54.3,
+     0,
+     45.7,
+     0
+    ],
+    "energy": [
+     43,
+     0,
+     3,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     1431,
+     474,
+     1467,
+     146
+    ],
+    "lost": [
+     1182,
+     489,
+     1571,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   },
+   {
+    "t": 1000,
+    "why": "snap",
+    "cnt": [
+     2692,
+     0,
+     2220,
+     0
+    ],
+    "share": [
+     54.8,
+     0,
+     45.2,
+     0
+    ],
+    "energy": [
+     48,
+     0,
+     41,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     2631,
+     474,
+     2639,
+     146
+    ],
+    "lost": [
+     2354,
+     489,
+     2771,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   },
+   {
+    "t": 1300,
+    "why": "snap",
+    "cnt": [
+     2692,
+     0,
+     2220,
+     0
+    ],
+    "share": [
+     54.8,
+     0,
+     45.2,
+     0
+    ],
+    "energy": [
+     48,
+     0,
+     45,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     4431,
+     474,
+     4439,
+     146
+    ],
+    "lost": [
+     4154,
+     489,
+     4571,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   },
+   {
+    "t": 1600,
+    "why": "snap",
+    "cnt": [
+     2692,
+     0,
+     2220,
+     0
+    ],
+    "share": [
+     54.8,
+     0,
+     45.2,
+     0
+    ],
+    "energy": [
+     48,
+     0,
+     45,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     6231,
+     474,
+     6239,
+     146
+    ],
+    "lost": [
+     5954,
+     489,
+     6371,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   },
+   {
+    "t": 2000,
+    "why": "snap",
+    "cnt": [
+     2692,
+     0,
+     2220,
+     0
+    ],
+    "share": [
+     54.8,
+     0,
+     45.2,
+     0
+    ],
+    "energy": [
+     48,
+     0,
+     45,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     8631,
+     474,
+     8639,
+     146
+    ],
+    "lost": [
+     8354,
+     489,
+     8771,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   },
+   {
+    "t": 2500,
+    "why": "snap",
+    "cnt": [
+     2692,
+     0,
+     2220,
+     0
+    ],
+    "share": [
+     54.8,
+     0,
+     45.2,
+     0
+    ],
+    "energy": [
+     48,
+     0,
+     45,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     11631,
+     474,
+     11639,
+     146
+    ],
+    "lost": [
+     11354,
+     489,
+     11771,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   },
+   {
+    "t": 3000,
+    "why": "tick-cap",
+    "cnt": [
+     2692,
+     0,
+     2220,
+     0
+    ],
+    "share": [
+     54.8,
+     0,
+     45.2,
+     0
+    ],
+    "energy": [
+     48,
+     0,
+     45,
+     0
+    ],
+    "alive": [
+     true,
+     false,
+     true,
+     false
+    ],
+    "taken": [
+     14631,
+     474,
+     14639,
+     146
+    ],
+    "lost": [
+     14354,
+     489,
+     14771,
+     276
+    ],
+    "events": [
+     {
+      "t": 32,
+      "type": "contact",
+      "a": 1,
+      "b": 3
+     },
+     {
+      "t": 128,
+      "type": "cut",
+      "who": 3,
+      "by": 1,
+      "cells": 177
+     },
+     {
+      "t": 227,
+      "type": "contact",
+      "a": 2,
+      "b": 0
+     },
+     {
+      "t": 367,
+      "type": "contact",
+      "a": 2,
+      "b": 1
+     },
+     {
+      "t": 437,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 439,
+      "type": "full"
+     },
+     {
+      "t": 488,
+      "type": "cut",
+      "who": 2,
+      "by": 0,
+      "cells": 6
+     },
+     {
+      "t": 525,
+      "type": "elim",
+      "who": 1,
+      "by": 0,
+      "cells": 1311
+     },
+     {
+      "t": 601,
+      "type": "contact",
+      "a": 3,
+      "b": 0
+     },
+     {
+      "t": 623,
+      "type": "contact",
+      "a": 2,
+      "b": 3
+     },
+     {
+      "t": 705,
+      "type": "elim",
+      "who": 3,
+      "by": 0,
+      "cells": 40
+     }
+    ]
+   }
+  ]
+ },
+ "duel": {
+  "kinds": [
+   "rush",
+   "cheap"
+  ],
+  "free": 2450,
+  "snaps": [
+   {
+    "t": 150,
+    "why": "snap",
+    "cnt": [
+     209,
+     231
+    ],
+    "share": [
+     8.5,
+     9.4
+    ],
+    "energy": [
+     1,
+     1
+    ],
+    "alive": [
+     true,
+     true
+    ],
+    "taken": [
+     23,
+     0
+    ],
+    "lost": [
+     0,
+     23
+    ],
+    "msPerTick": [
+     0.255,
+     0.224
+    ],
+    "events": [
+     {
+      "t": 65,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     }
+    ]
+   },
+   {
+    "t": 250,
+    "why": "snap",
+    "cnt": [
+     439,
+     1
+    ],
+    "share": [
+     17.9,
+     0
+    ],
+    "energy": [
+     1,
+     0
+    ],
+    "alive": [
+     true,
+     true
+    ],
+    "taken": [
+     56,
+     21
+    ],
+    "lost": [
+     21,
+     56
+    ],
+    "msPerTick": [
+     0.204,
+     0.154
+    ],
+    "events": [
+     {
+      "t": 65,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 167,
+      "type": "cut",
+      "who": 1,
+      "by": 0,
+      "cells": 263
+     }
+    ]
+   },
+   {
+    "t": 400,
+    "why": "snap",
+    "cnt": [
+     1203,
+     1
+    ],
+    "share": [
+     49.1,
+     0
+    ],
+    "energy": [
+     54,
+     3
+    ],
+    "alive": [
+     true,
+     true
+    ],
+    "taken": [
+     93,
+     58
+    ],
+    "lost": [
+     58,
+     93
+    ],
+    "msPerTick": [
+     0.241,
+     0.114
+    ],
+    "events": [
+     {
+      "t": 65,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 167,
+      "type": "cut",
+      "who": 1,
+      "by": 0,
+      "cells": 263
+     }
+    ]
+   },
+   {
+    "t": 496,
+    "why": "domination",
+    "cnt": [
+     1754,
+     1
+    ],
+    "share": [
+     71.6,
+     0
+    ],
+    "energy": [
+     53,
+     0
+    ],
+    "alive": [
+     true,
+     true
+    ],
+    "taken": [
+     118,
+     83
+    ],
+    "lost": [
+     83,
+     118
+    ],
+    "msPerTick": [
+     0.343,
+     0.108
+    ],
+    "events": [
+     {
+      "t": 65,
+      "type": "contact",
+      "a": 0,
+      "b": 1
+     },
+     {
+      "t": 167,
+      "type": "cut",
+      "who": 1,
+      "by": 0,
+      "cells": 263
+     }
+    ]
+   }
+  ]
+ }
+}
